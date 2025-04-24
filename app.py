@@ -1,57 +1,130 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.chains import RetrievalQA
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from pydantic import BaseModel
+from dotenv import load_dotenv
 import os
+import logging
+from typing import Optional
 
-# Set your Gemini API key (Consider storing it securely in production)
-os.environ["GOOGLE_API_KEY"] = "AIzaSyAYdUMOn6tZANgNWJ2wQgOkt0K3juLiqU8"
+# Load environment variables
+load_dotenv()
+
+# Configuration
+class Settings:
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    DOCS_PATH = os.path.join(os.path.dirname(__file__), "docs")  # Relative path to docs
+
+    @classmethod
+    def validate(cls):
+        if not cls.GOOGLE_API_KEY:
+            raise ValueError("GOOGLE_API_KEY not found in environment variables")
+        if not os.path.exists(cls.DOCS_PATH):
+            raise FileNotFoundError(f"Document path not found: {cls.DOCS_PATH}")
 
 # Initialize FastAPI app
 app = FastAPI()
 
-# CORS Middleware (update 'allow_origins' in production)
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+# CORS Middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Set to your domain later
+    allow_origins=[
+        "http://localhost",
+        "http://localhost:8000",
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["POST"],
     allow_headers=["*"],
 )
 
-# --- Load and process your Markdown content ---
-loader = DirectoryLoader("D:/kalyan-jewellers-1/docs", glob="**/*.md", show_progress=True)
-docs = loader.load()
+# Data model for request validation
+class ChatRequest(BaseModel):
+    question: str
 
-# Split text into chunks
-splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-split_docs = splitter.split_documents(docs)
+# Global components
+qa_chain: Optional[RetrievalQA] = None
 
-# Create embeddings and vectorstore
-embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-vectorstore = FAISS.from_documents(split_docs, embedding)
+@app.on_event("startup")
+async def startup_event():
+    """Initialize application components"""
+    global qa_chain
+    
+    try:
+        Settings.validate()
+        
+        logger.info("Loading documents...")
+        loader = DirectoryLoader(Settings.DOCS_PATH, glob="**/*.md", show_progress=True)
+        docs = loader.load()
+        
+        logger.info("Splitting documents...")
+        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        split_docs = splitter.split_documents(docs)
+        
+        logger.info("Creating embeddings...")
+        embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        
+        logger.info("Building vector store...")
+        vectorstore = FAISS.from_documents(split_docs, embedding)
+        
+        logger.info("Initializing QA chain...")
+        llm = ChatGoogleGenerativeAI(model="gemini-pro")
+        qa_chain = RetrievalQA.from_chain_type(
+            llm=llm,
+            retriever=vectorstore.as_retriever(),
+            chain_type="stuff"
+        )
+        logger.info("Application startup complete")
+        
+    except Exception as e:
+        logger.error(f"Startup failed: {str(e)}")
+        raise
 
-# Create retriever and QA chain
-retriever = vectorstore.as_retriever()
-llm = ChatGoogleGenerativeAI(model="gemini-pro")
-qa_chain = RetrievalQA.from_chain_type(llm=llm, retriever=retriever)
-
-# --- API endpoint ---
 @app.post("/chat")
-async def chat(request: Request):
-    data = await request.json()  # Parse JSON input
-    question = data.get("question")  # Extract the 'question' field
+async def chat(chat_request: ChatRequest):
+    """
+    Handle chat requests with proper validation and error handling
+    """
+    if not qa_chain:
+        raise HTTPException(status_code=503, detail="Service initializing, please try again later")
     
-    if not question:
-        return {"error": "No question provided"}
-    
-    # Get the response using the QA chain
-    response = qa_chain.run(question)
-    
-    return {"response": response}
+    try:
+        # Validate input
+        question = chat_request.question.strip()
+        if not question:
+            raise HTTPException(status_code=400, detail="Question cannot be empty")
+        if len(question) > 1000:
+            raise HTTPException(status_code=400, detail="Question too long (max 1000 characters)")
+        
+        # Process question
+        logger.info(f"Processing question: {question[:50]}...")
+        result = qa_chain.invoke({"query": question})
+        
+        return {"response": result.get("result", "No answer generated")}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error processing question: {str(e)}", exc_info=True)
+        raise HTTPException(status_code=500, detail="Error processing your question")
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy" if qa_chain else "initializing",
+        "service": "chat-api",
+        "version": "1.0.0"
+    }
 
 
