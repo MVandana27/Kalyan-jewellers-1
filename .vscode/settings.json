@@ -1,0 +1,8 @@
+{
+    "yaml.schemas": {
+        "https://squidfunk.github.io/mkdocs-material/schema.json": [
+            "mkdocs.yml",
+            "file:///c%3A/Users/W2710/kalyan-jewellers/kalyan-jewellers-1/mkdocs.yml"
+        ]
+    }
+}

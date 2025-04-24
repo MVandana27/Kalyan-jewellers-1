@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block footer %}
+<footer class="md-footer">
+    <div style="text-align: center; padding: 15px; font-size: 15px;">
+        Copyright &copy; 2025 Kalyan Jewellers. All rights reserved.
+    </div>
+    <div onclick="window.open('https://github.com/MVandana27/kalyan-jewellers.git', '_blank')"
+        style="cursor: pointer; text-align: center; padding-bottom: 10px; font-size: 14px; color: #ada9a9;">
+        Created by <strong style="text-decoration: underline; margin-left: 5px;">Vandana</strong>
+    </div>
+
+    <!-- DocsBot AI Chat Widget -->
+    <script type="text/javascript">
+        window.DocsBotAI = window.DocsBotAI || {};
+        DocsBotAI.init = function (config) {
+            return new Promise((resolve, reject) => {
+                var script = document.createElement("script");
+                script.type = "text/javascript";
+                script.async = true;
+                script.src = "https://widget.docsbot.ai/chat.js";
+
+                let firstScript = document.getElementsByTagName("script")[0];
+                firstScript.parentNode.insertBefore(script, firstScript);
+
+                script.addEventListener("load", () => {
+                    let waitForElement = function (selector) {
+                        return new Promise((resolve) => {
+                            if (document.querySelector(selector)) return resolve(document.querySelector(selector));
+                            let observer = new MutationObserver(() => {
+                                if (document.querySelector(selector)) {
+                                    resolve(document.querySelector(selector));
+                                    observer.disconnect();
+                                }
+                            });
+                            observer.observe(document.body, { childList: true, subtree: true });
+                        });
+                    };
+
+                    Promise.all([
+                        new Promise((resolve, reject) => {
+                            window.DocsBotAI.mount(Object.assign({}, config)).then(resolve).catch(reject);
+                        }),
+                        waitForElement("#docsbotai-root"),
+                    ])
+                        .then(() => resolve())
+                        .catch(reject);
+                });
+
+                script.addEventListener("error", (err) => {
+                    reject(err.message);
+                });
+            });
+        };
+    </script>
+
+    <script type="text/javascript">
+        DocsBotAI.init({
+            id: "7krA67a4xsD5AmZdR92n/88qeIXF5KpgEdNDsXiw8",
+            docsPath: "/kalyan-jewellers"
+        });
+    </script>
+
+
+</footer>
+
+{% endblock %}
+
+
+
+{% block site_nav %}
+<!-- Add this to your head section -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Horizontal Navigation Palette -->
+<div class="palette-menu">
+    <ul class="navbar">
+        <li class="menu-section">
+            <a href="{{ base_url }}/">
+                <i class="material-icons">home</i> Overview
+            </a>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/category/">
+                <i class="material-icons">category</i> Category
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/category/gold/"><i class="material-icons">monetization_on</i> Gold</a></li>
+                <li><a href="{{ base_url }}/category/diamond/"><i class="material-icons">diamond</i> Diamond</a></li>
+                <li><a href="{{ base_url }}/category/silver/"><i class="material-icons">style</i> Silver</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/offers/">
+                <i class="material-icons">local_offer</i> Offers
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/offers/pan/"><i class="material-icons">map</i> Pan India</a></li>
+                <li><a href="{{ base_url }}/offers/month/"><i class="material-icons">event</i> April/May Offers</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/map/">
+                <i class="material-icons">place</i> Map
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/map/contact/"><i class="material-icons">contact_support</i> Contact Us</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/goldrate/">
+                <i class="material-icons">trending_up</i> Gold Rate
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/goldrate/store/"><i class="material-icons">store</i> Store Address</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section mega-dropdown">
+            <a class="nav-link" href="{{ base_url }}/services/">
+                <i class="material-icons">miscellaneous_services</i> Services
+            </a>
+            <div class="mega-menu">
+                <div class="mega-menu-row">
+                    <!-- Design Services Column -->
+                    <div class="mega-menu-column">
+                        <h4><i class="material-icons">design_services</i> Design Services</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/custom/"><i class="material-icons">brush</i> Custom
+                                    Design</a></li>
+                            <li><a href="{{ base_url }}/services/cad/"><i class="material-icons">computer</i> CAD
+                                    Design</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Repair & Maintenance Column -->
+                    <div class="mega-menu-column">
+                        <h4><i class="material-icons">handyman</i> Repair & Maintenance</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/repair/"><i class="material-icons">build</i> Jewelry
+                                    Repair</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Special Services Column -->
+                    <div class="mega-menu-column">
+                        <h4><i class="material-icons">stars</i> Special Services</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/heritage/"><i
+                                        class="material-icons">account_balance</i> Heritage</a></li>
+                            <li><a href="{{ base_url }}/services/craftmanship/"><i
+                                        class="material-icons">engineering</i> Craftmanship</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-menu-image">
+                        <img src="https://mvandana27.github.io/kalyan-jewellers/assets/images/service.png" alt="Logo"
+                            class="logo">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+
+<style>
+    /* Add this CSS to properly align icons with text */
+    .navbar a .material-icons {
+        vertical-align: middle;
+        margin-right: 8px;
+        font-size: 1.2em;
+    }
+
+    .mega-menu-column h4 .material-icons {
+        vertical-align: bottom;
+        margin-right: 8px;
+    }
+
+    .dropdown-menu a .material-icons {
+        font-size: 1em;
+    }
+</style>
+{% endblock %}

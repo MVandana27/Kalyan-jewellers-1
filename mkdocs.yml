@@ -1,0 +1,109 @@
+site_name: Kalyan Jewellers
+site_url: https://kalyanjewellers.example.com
+site_author: "Manyam vandana"
+theme:
+  name: material
+  custom_dir: docs/overrides
+  logo: assets/images/image.png
+  favicon: assets/images/chat.png
+
+  features:
+    - search.share
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.top
+    - toc.integrate
+    - navigation.expand
+    - search.highlight
+    - navigation.instant
+    - navigation.indexes
+
+  font:
+    text: Roboto
+    code: Red Hat Mono
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: light blue
+      accent: red
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: light green
+      accent: deep orange
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+extra_css:
+  - assets/stylesheets/extra.css
+  - stylesheets/extra.css
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css
+
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js/
+
+  - https://unpkg.com/force-image-reload@1.0.0
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js
+
+markdown_extensions:
+  - attr_list
+  - pymdownx.emoji
+  - pymdownx.highlight
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+  - blog
+  - macros:
+      module_name: docs/main
+
+  - minify:
+      minify_html: true
+
+nav:
+  - Kalyan Jewellers: index.md
+  - Category:
+      - Overview: category/index.md
+      - Gold: category/gold.md
+      - Diamond: category/diamond.md
+      - Silver: category/silver.md
+
+  - Offers:
+      - Overview: offers/index.md
+      - Pan India: offers/pan.md
+      - April/May Offers: offers/month.md
+  - Map:
+      - Overview: map/index.md
+      - Contact Us: map/contact.md
+  - GoldRate:
+      - Overview: goldrate/index.md
+      - Store Address: goldrate/store.md
+  - Services:
+      - Overview: services/index.md
+      - Design Services:
+          - Custom Design: services/custom.md
+          - CAD Design: services/cad.md
+      - Repair & Maintenance:
+          - Jewelry Repair: services/repair.md
+      - Special Services:
+          - Heritage: services/heritage.md
+          - Craftmanship: services/craftmanship.md

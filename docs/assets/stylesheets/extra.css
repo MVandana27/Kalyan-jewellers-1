@@ -1,0 +1,161 @@
+.center-logo {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Navigation Palette with Light Orange Background */
+
+.palette-menu {
+    background: transparent !important;
+    padding: 10px;
+    border-radius: 10px;
+    position: fixed !important;
+    top: 0px;
+    left: 70px;
+
+    width: auto;
+    transform: none;
+    display: flex;
+    justify-content: flex-start;
+
+    z-index: 1000;
+    pointer-events: auto !important;
+
+}
+
+/* Horizontal Navigation */
+.navbar {
+
+    display: flex;
+    flex-direction: row;
+    position: fixed !important;
+    gap: 15px;
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+
+}
+
+
+
+/* Menu Sections Styled as Buttons */
+.menu-section a {
+    text-decoration: none;
+    color: white !important;
+    filter: brightness(100%);
+    font-size: small;
+    font-weight: bold;
+    padding: 10px 15px;
+    background: none;
+    border-radius: 5px;
+    display: block;
+
+}
+
+.menu-section a:hover {
+    background: rgba(80, 172, 221, 0.1);
+    filter: brightness(80%);
+}
+
+/* Dropdown container */
+.dropdown {
+    position: relative;
+}
+
+/* Base dropdown menu (fallback) */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding: 8px 0;
+    list-style: none;
+    min-width: 200px;
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    backdrop-filter: blur(6px);
+}
+
+/* Light theme dropdown background */
+[data-md-color-scheme="default"] .dropdown-menu {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+/* Dark theme dropdown background */
+[data-md-color-scheme="slate"] .dropdown-menu {
+    background: rgba(130, 129, 129, 0.6);
+}
+
+/* Individual items */
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px 16px;
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Light theme link color */
+[data-md-color-scheme="default"] .dropdown-menu li a {
+    color: #444 !important;
+}
+
+/* Dark theme link color */
+[data-md-color-scheme="slate"] .dropdown-menu li a {
+    color: #fffdfd !important;
+}
+
+/* Hover effect */
+.dropdown-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #000 !important;
+    font-weight: 600;
+    transform: scale(1.02);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark theme hover override */
+[data-md-color-scheme="slate"] .dropdown-menu li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #070707 !important;
+}
+
+/* Active item */
+.dropdown-menu li a.active {
+    background-color: #436d96;
+    color: #030303 !important;
+    font-weight: bold;
+}
+
+/* Show dropdown on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+
+
+/* Ensure nav links in dropdown are always visible */
+.md-nav__dropdown a {
+    color: inherit !important;
+}
+
+
+
+/* Align Content to the Right */
+.md-content {
+    margin-top: 0;
+    margin-left: 220px;
+    margin-right: 50px;
+    max-width: 1000px;
+    text-align: left;
+}

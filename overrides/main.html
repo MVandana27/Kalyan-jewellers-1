@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block footer %}
+<footer class="md-footer">
+    <div style="text-align: center; padding: 15px; font-size: 15px;">
+        Copyright &copy; 2025 Kalyan Jewellers. All rights reserved.
+    </div>
+    <div onclick="window.open('https://github.com/MVandana27/kalyan-jewellers.git', '_blank')"
+        style="cursor: pointer; text-align: center; padding-bottom: 10px; font-size: 14px; color: #ada9a9;">
+        Created by <strong style="text-decoration: underline;">Vandana</strong>
+    </div>
+
+    <!-- In your MkDocs homepage or base.html -->
+    <div id="chatbot">
+        <div id="chatlog"></div>
+        <input id="chatinput" placeholder="Ask me anything..." />
+    </div>
+
+    <script>
+        const input = document.getElementById('chatinput');
+        const log = document.getElementById('chatlog');
+
+        input.addEventListener('keypress', async function (e) {
+            if (e.key === 'Enter') {
+                const question = input.value;
+                log.innerHTML += `<div class="user">🧑‍💻 ${question}</div>`;
+                input.value = '';
+                const res = await fetch('http://localhost:8000/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question })
+                });
+                const data = await res.json();
+                log.innerHTML += `<div class="bot">🤖 ${data.response}</div>`;
+            }
+        });
+    </script>
+
+
+
+</footer>
+
+{% endblock %}
+
+
+
+{% block site_nav %}
+<!-- Horizontal Navigation Palette -->
+<div class="palette-menu">
+    <ul class="navbar">
+        <li class="menu-section"><a href="{{ base_url }}/">Overview</a></li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/category/">Category</a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/category/gold/">Gold</a></li>
+                <li><a href="{{ base_url }}/category/diamond/">Diamond</a></li>
+                <li><a href="{{ base_url }}/category/silver/">Silver</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/offers/">Offers</a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/offers/pan/">Pan India</a></li>
+                <li><a href="{{ base_url }}/offers/month/">April/May Offers</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/map/">Map</a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/map/contact/">Contact Us</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section dropdown">
+            <a class="nav-link" href="{{ base_url }}/goldrate/">Gold Rate</a>
+            <ul class="dropdown-menu">
+                <li><a href="{{ base_url }}/goldrate/store/">Store Address</a></li>
+            </ul>
+        </li>
+
+        <li class="menu-section mega-dropdown">
+            <a class="nav-link" href="{{ base_url }}/services/">Services</a>
+            <div class="mega-menu">
+                <div class="mega-menu-row">
+                    <!-- Design Services Column -->
+                    <div class="mega-menu-column">
+                        <h4>Design Services</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/custom/">Custom Design</a></li>
+                            <li><a href="{{ base_url }}/services/cad/">CAD Design</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Repair & Maintenance Column -->
+                    <div class="mega-menu-column">
+                        <h4>Repair & Maintenance</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/repair/">Jewelry Repair</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Special Services Column -->
+                    <div class="mega-menu-column">
+                        <h4>Special Services</h4>
+                        <ul>
+                            <li><a href="{{ base_url }}/services/heritage/">Heritage</a></li>
+                            <li><a href="{{ base_url }}/services/craftmanship/">Craftmanship</a></li>
+                        </ul>
+                    </div>
+                    <div class="mega-menu-image">
+                        <img src="https://mvandana27.github.io/kalyan-jewellers/assets/images/service.png" alt="Logo"
+                            class="logo">
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+{% endblock %}
