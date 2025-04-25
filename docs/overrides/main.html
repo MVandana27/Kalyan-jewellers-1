@@ -10,56 +10,8 @@
         Created by <strong style="text-decoration: underline; margin-left: 5px;">Vandana</strong>
     </div>
 
-    <!-- DocsBot AI Chat Widget -->
-    <script type="text/javascript">
-        window.DocsBotAI = window.DocsBotAI || {};
-        DocsBotAI.init = function (config) {
-            return new Promise((resolve, reject) => {
-                var script = document.createElement("script");
-                script.type = "text/javascript";
-                script.async = true;
-                script.src = "https://widget.docsbot.ai/chat.js";
-
-                let firstScript = document.getElementsByTagName("script")[0];
-                firstScript.parentNode.insertBefore(script, firstScript);
-
-                script.addEventListener("load", () => {
-                    let waitForElement = function (selector) {
-                        return new Promise((resolve) => {
-                            if (document.querySelector(selector)) return resolve(document.querySelector(selector));
-                            let observer = new MutationObserver(() => {
-                                if (document.querySelector(selector)) {
-                                    resolve(document.querySelector(selector));
-                                    observer.disconnect();
-                                }
-                            });
-                            observer.observe(document.body, { childList: true, subtree: true });
-                        });
-                    };
-
-                    Promise.all([
-                        new Promise((resolve, reject) => {
-                            window.DocsBotAI.mount(Object.assign({}, config)).then(resolve).catch(reject);
-                        }),
-                        waitForElement("#docsbotai-root"),
-                    ])
-                        .then(() => resolve())
-                        .catch(reject);
-                });
-
-                script.addEventListener("error", (err) => {
-                    reject(err.message);
-                });
-            });
-        };
-    </script>
-
-    <script type="text/javascript">
-        DocsBotAI.init({
-            id: "7krA67a4xsD5AmZdR92n/88qeIXF5KpgEdNDsXiw8",
-            docsPath: "/kalyan-jewellers"
-        });
-    </script>
+    
+    
 
 
 </footer>
