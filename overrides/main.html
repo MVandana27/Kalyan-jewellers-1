@@ -10,32 +10,7 @@
         Created by <strong style="text-decoration: underline;">Vandana</strong>
     </div>
 
-    <!-- In your MkDocs homepage or base.html -->
-    <div id="chatbot">
-        <div id="chatlog"></div>
-        <input id="chatinput" placeholder="Ask me anything..." />
-    </div>
-
-    <script>
-        const input = document.getElementById('chatinput');
-        const log = document.getElementById('chatlog');
-
-        input.addEventListener('keypress', async function (e) {
-            if (e.key === 'Enter') {
-                const question = input.value;
-                log.innerHTML += `<div class="user">🧑‍💻 ${question}</div>`;
-                input.value = '';
-                const res = await fetch('http://localhost:8000/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question })
-                });
-                const data = await res.json();
-                log.innerHTML += `<div class="bot">🤖 ${data.response}</div>`;
-            }
-        });
-    </script>
-
+    
 
 
 </footer>
